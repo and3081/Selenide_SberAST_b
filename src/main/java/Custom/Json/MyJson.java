@@ -1,7 +1,6 @@
 package Custom.Json;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 
 import java.util.List;
 import java.util.Map;
