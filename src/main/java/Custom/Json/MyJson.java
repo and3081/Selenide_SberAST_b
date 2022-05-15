@@ -13,16 +13,11 @@ public class MyJson {
     /**
      * Получение Json-string из List<Map<String, String>>
      * @param list входной List<Map<String, String>>
-     * @return Json-string / null при исключении (trace в консоль)
+     * @return Json-string / null при err
      */
     public static String listMapToJson(List<Map<String, String>> list) {
         JSONArray json = new JSONArray(list);
-        try {
-            return json.toString(2);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return json.toString(2);
     }
 }
 
