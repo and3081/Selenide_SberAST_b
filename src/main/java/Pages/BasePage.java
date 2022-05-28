@@ -21,7 +21,7 @@ public class BasePage {
     /**
      * Значение явного ожидания ms из проперти
      */
-    public long timeoutExplicitMs = Long.parseLong(TestData.props.defaultTimeoutExplicitMs());
+    public long timeoutExplicitMs = Long.parseLong(TestData.browser.defaultTimeoutExplicitMs());
     /**
      * Объект явных ожиданий (для метода реального клика)
      */
@@ -57,7 +57,7 @@ public class BasePage {
      */
     @Step("step {step}. Открыть браузер и стартовую страницу Сбер-АСТ")  // step 1
     public static PageSberAstMain openFirstPageSberAst(int step) {
-        open(TestData.props.baseUrlSberAst());
+        open(TestData.browser.baseUrlSberAst());
         maxWindow();
         return page(PageSberAstMain.class); }
 

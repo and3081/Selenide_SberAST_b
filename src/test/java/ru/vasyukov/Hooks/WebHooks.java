@@ -8,14 +8,19 @@ import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.events.WebDriverListener;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.codeborne.selenide.WebDriverRunner.*;
 
 /**
- * Родительский класс для тестов:
- *   настройка опций браузера и листенера первый раз,
- *   методы BeforeEach и AfterEach
+ * Класс хуков для настройки web драйвера по проперти browser.properties:
+ *  - локального
+ *  - удаленного (Selenide)
+ *  - ремоут (Selenoid)
  */
 public class WebHooks {
     /**
@@ -25,24 +30,35 @@ public class WebHooks {
 
     // Настройка опций браузера и листенера первый раз
     static {
-        Configuration.timeout = Long.parseLong(TestData.props.defaultTimeoutImplicitMs());
+        Configuration.timeout = Long.parseLong(TestData.browser.defaultTimeoutImplicitMs());
         if (listener != null) addListener(listener);
-        if (TestData.props.headlessMode() != null) Configuration.headless = true;
-        if (TestData.props.dontCloseBrowser() != null) Configuration.holdBrowserOpen = true;
-        if (TestData.props.remoteUrl() != null) Configuration.remote = TestData.props.remoteUrl();
+        if (TestData.browser.headlessMode() != null) Configuration.headless = true;
+        if (TestData.browser.dontCloseBrowser() != null) Configuration.holdBrowserOpen = true;
 
-        if ((TestData.props.typeBrowser() == null || TestData.props.typeBrowser().equals("chrome")) &&
-                TestData.props.webdriverChromeLocalPath() != null) {
-            System.setProperty("webdriver.chrome.driver", TestData.props.webdriverChromeLocalPath());
-            WebDriver driver = new ChromeDriver();
-            setWebDriver(driver);
-        } else if (TestData.props.typeBrowser() != null)
-            if (TestData.props.typeBrowser().equals("edge")) {
-                System.setProperty("webdriver.edge.driver", TestData.props.webdriverEdgeLocalPath());
-                WebDriver driver = new EdgeDriver();
+        if (TestData.browser.remoteUrl() != null) {
+            Configuration.remote = TestData.browser.remoteUrl();
+            DesiredCapabilities capabilities = new DesiredCapabilities();
+            capabilities.setCapability("browserName", "chrome");
+            capabilities.setCapability("browserVersion", "101.0");
+            Map<String, Object> map = new HashMap<>();
+            map.put("enableVNC", true);
+            map.put("enableVideo", true);
+            capabilities.setCapability("selenoid:options", map);
+            Configuration.browserCapabilities = capabilities;
+        } else {
+            if ((TestData.browser.typeBrowser() == null || TestData.browser.typeBrowser().equals("chrome")) &&
+                    TestData.browser.webdriverChromeLocalPath() != null) {
+                System.setProperty("webdriver.chrome.driver", TestData.browser.webdriverChromeLocalPath());
+                WebDriver driver = new ChromeDriver();
                 setWebDriver(driver);
-            } else Configuration.browser = TestData.props.typeBrowser();
-        else Configuration.browser = "chrome";
+            } else if (TestData.browser.typeBrowser() != null)
+                if (TestData.browser.typeBrowser().equals("edge")) {
+                    System.setProperty("webdriver.edge.driver", TestData.browser.webdriverEdgeLocalPath());
+                    WebDriver driver = new EdgeDriver();
+                    setWebDriver(driver);
+                } else Configuration.browser = TestData.browser.typeBrowser();
+            else Configuration.browser = "chrome";
+        }
 //        ChromeOptions options = new ChromeOptions();
 //        options.addArguments("start-maximized");  // устарел, use  getWebDriver().manage().window().maximize();
 //        DesiredCapabilities capabilities = new DesiredCapabilities();  // old
