@@ -1,7 +1,7 @@
-package ru.vasyukov.Hooks;
+package ru.vasyukov.hooks;
 
-import Custom.listeners.Listeners;
-import Custom.properties.TestData;
+import custom.listeners.Listeners;
+import custom.properties.TestData;
 import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

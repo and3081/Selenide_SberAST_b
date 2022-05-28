@@ -1,4 +1,4 @@
-package Custom.Json;
+package custom.json;
 
 import org.json.JSONArray;
 import org.json.JSONException;

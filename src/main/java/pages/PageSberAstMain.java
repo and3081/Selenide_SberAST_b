@@ -1,6 +1,6 @@
-package Pages;
+package pages;
 
-import Custom.Json.MyJson;
+import custom.json.MyJson;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import org.junit.jupiter.api.Assertions;

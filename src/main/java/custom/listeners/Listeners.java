@@ -1,7 +1,7 @@
-package Custom.listeners;
+package custom.listeners;
 
-import Custom.Screenshoters.Screenshoter;
-import Custom.properties.TestData;
+import custom.screenshoters.Screenshoter;
+import custom.properties.TestData;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;

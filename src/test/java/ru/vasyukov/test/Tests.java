@@ -1,11 +1,11 @@
-package ru.vasyukov.Test;
+package ru.vasyukov.test;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import ru.vasyukov.Hooks.WebHooks;
+import ru.vasyukov.hooks.WebHooks;
 
-import static Pages.BasePage.openFirstPageSberAst;
+import static pages.BasePage.openFirstPageSberAst;
 
 /**
  * Класс тест-кейсов
@@ -46,7 +46,7 @@ public class Tests extends WebHooks {
      */
     @DisplayName("Тестирование выборки в Сбер-АСТ")
     @ParameterizedTest(name = "{arguments}")
-    @MethodSource("ru.vasyukov.Test.DataProvider#providerSberAst")
+    @MethodSource("ru.vasyukov.test.DataProvider#providerSberAst")
     public void testSberAstChoice(String search, double price, String currency, String law,
                                   int maxCountView, int countChoice) {
         openFirstPageSberAst(1)

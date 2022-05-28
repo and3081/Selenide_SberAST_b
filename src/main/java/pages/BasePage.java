@@ -1,6 +1,6 @@
-package Pages;
+package pages;
 
-import Custom.properties.TestData;
+import custom.properties.TestData;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
 import org.openqa.selenium.ElementClickInterceptedException;
@@ -28,18 +28,13 @@ public class BasePage {
     private final WebDriverWait waitClick = new WebDriverWait(getWebDriver(), Duration.ofMillis(timeoutExplicitMs));
 
     /**
-     * xPath title страницы
-     */
-    public String XPATH_TITLE = "//head/title";
-
-    /**
      * Шаг Проверить фрагмент title страницы
      * @param step  номер шага для аллюра
      * @param title фрагмент title
      */
     @Step("step {step}. Проверить фрагмент title страницы '{title}'")  // step 2
     public void checkTitleFragment(int step, String title) {
-        $x(XPATH_TITLE).shouldHave(match("Проверка фрагмента title",
+        $x("//head/title").shouldHave(match("Проверка фрагмента title",
                 (el)-> el.getAttribute("textContent").contains(title)));
     }
 

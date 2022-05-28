@@ -1,4 +1,4 @@
-package ru.vasyukov.Test;
+package ru.vasyukov.test;
 
 import org.junit.jupiter.params.provider.Arguments;
 
