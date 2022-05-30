@@ -11,6 +11,10 @@
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
         <junit.jupiter.version>5.7.0-M1</junit.jupiter.version>
         <seleniumhq.selenium>4.1.1</seleniumhq.selenium>
         <selenium.support>4.1.1</selenium.support>
@@ -111,6 +115,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
+                    <encoding>UTF-8</encoding>
                     <source>9</source>
                     <target>9</target>
                 </configuration>
