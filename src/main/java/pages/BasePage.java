@@ -52,7 +52,7 @@ public class BasePage {
      */
     @Step("step {step}. Открыть браузер и стартовую страницу Сбер-АСТ")  // step 1
     public static PageSberAstMain openFirstPageSberAst(int step) {
-        open(TestData.browser.baseUrlSberAst());
+        open(TestData.application.baseUrlSberAst());
         maxWindow();
         return page(PageSberAstMain.class); }
 

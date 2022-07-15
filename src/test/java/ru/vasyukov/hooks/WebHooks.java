@@ -47,16 +47,32 @@ public class WebHooks {
             Configuration.browserCapabilities = capabilities;
         } else {
             if ((TestData.browser.typeBrowser() == null || TestData.browser.typeBrowser().equals("chrome")) &&
-                    TestData.browser.webdriverChromeLocalPath() != null) {
-                System.setProperty("webdriver.chrome.driver", TestData.browser.webdriverChromeLocalPath());
-                WebDriver driver = new ChromeDriver();
-                setWebDriver(driver);
-            } else if (TestData.browser.typeBrowser() != null)
-                if (TestData.browser.typeBrowser().equals("edge")) {
-                    System.setProperty("webdriver.edge.driver", TestData.browser.webdriverEdgeLocalPath());
-                    WebDriver driver = new EdgeDriver();
-                    setWebDriver(driver);
-                } else Configuration.browser = TestData.browser.typeBrowser();
+                    (TestData.browser.webdriverChromeLocalPath() != null ||
+                            TestData.browser.webdriverChromeGetenvPath() != null)) {
+                if (TestData.browser.webdriverChromeGetenvPath() == null) {
+                    System.setProperty("webdriver.chrome.driver",
+                            TestData.browser.webdriverChromeLocalPath());
+                } else {
+                    System.setProperty("webdriver.chrome.driver",
+                            System.getenv(TestData.browser.webdriverChromeGetenvPath()));
+                }
+                setWebDriver(new ChromeDriver());
+            } else if (TestData.browser.typeBrowser() != null) {
+                if (TestData.browser.typeBrowser().equals("edge") &&
+                        (TestData.browser.webdriverEdgeLocalPath() != null ||
+                                TestData.browser.webdriverEdgeGetenvPath() != null)) {
+                    if (TestData.browser.webdriverEdgeGetenvPath() == null) {
+                        System.setProperty("webdriver.edge.driver",
+                                TestData.browser.webdriverEdgeLocalPath());
+                    } else {
+                        System.setProperty("webdriver.edge.driver",
+                                System.getenv(TestData.browser.webdriverEdgeGetenvPath()));
+                    }
+                    setWebDriver(new EdgeDriver());
+                } else {
+                    Configuration.browser = TestData.browser.typeBrowser();
+                }
+            }
             else Configuration.browser = "chrome";
         }
 //        ChromeOptions options = new ChromeOptions();
@@ -71,8 +87,7 @@ public class WebHooks {
      * перед каждым тестом (тут нет, open в тесте)
      */
     @BeforeEach
-    public void openBrowser() {
-    }
+    public void openBrowser() { }
 
     /**
      * Закрытие браузера после каждого теста,

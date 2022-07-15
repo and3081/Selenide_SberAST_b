@@ -8,8 +8,12 @@ import org.aeonbits.owner.ConfigFactory;
  */
 public class TestData {
     /**
-     * static метод для работы с проперти из файла browser.properties и listener.properties
+     * static метод для работы с проперти из файлов:
+     * application.properties
+     * browser.properties
+     * listener.properties
      */
+    public static Application application = ConfigFactory.create(Application.class);
     public static Browser browser = ConfigFactory.create(Browser.class);
     public static Listener listener = ConfigFactory.create(Listener.class);
 }

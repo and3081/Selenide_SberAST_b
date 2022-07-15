@@ -41,7 +41,7 @@ public class Listeners implements WebDriverListener {
     private static final String listenerModeElements = TestData.listener.listenerModeElements();
 
     static {
-        if (listenerMethodList !=null && !listenerMethodList.trim().isEmpty()) {
+        if (listenerMethodList != null && !listenerMethodList.trim().isEmpty()) {
             MethodList = Arrays.stream(listenerMethodList.trim().split(","))
                     .map(String::trim)
                     .collect(Collectors.toList());
@@ -136,7 +136,7 @@ public class Listeners implements WebDriverListener {
      */
     private static void actionBeforeWebDriver(WebDriver driver, Method method, Object[] args) {
         lastListenedDriver = driver;
-        if (getListenerAround()<=2 && checkMethod(method.getName())) {
+        if (getListenerAround() <= 2 && checkMethod(method.getName())) {
             Screenshoter.getScreenDriver("Перед", driver, method.getName(), "args:  ", Arrays.toString(args));
         }
     }
@@ -150,7 +150,7 @@ public class Listeners implements WebDriverListener {
      */
     private static void actionAfterWebDriver(WebDriver driver, Method method, Object[] args, Object result) {
         lastListenedDriver = driver;
-        if (getListenerAround()>=2 && checkMethod(method.getName())) {
+        if (getListenerAround() >= 2 && checkMethod(method.getName())) {
             Screenshoter.getScreenDriver("После", driver, method.getName(), "return:",
                     (result == null) ? "void" : result.toString());
         }
@@ -165,14 +165,14 @@ public class Listeners implements WebDriverListener {
      */
     private static void actionBeforeWebElement(WebDriver lastListenedDriver, WebElement el, Method method, Object[] args) {
         // метод click- всегда, т.к.после его м.не быть из-за смены страницы
-        if ((getListenerAround()<=2 || method.getName().equals("click")) && checkMethod(method.getName())) {
+        if ((getListenerAround() <= 2 || method.getName().equals("click")) && checkMethod(method.getName())) {
             if (lastListenedDriver != null && getListenerModeElements() != 2) {
                 new Actions(lastListenedDriver).moveToElement(el).perform();
-                Screenshoter.getScreenDriver("Перед", lastListenedDriver, method.getName(), "args:  ",
+                Screenshoter.getScreenDriver("Перед-win", lastListenedDriver, method.getName(), "args:  ",
                         Arrays.toString(args));
             }
             if (lastListenedDriver == null || getListenerModeElements() != 1) {
-                Screenshoter.getScreenElement("Перед", el, method.getName(), "args:  ",
+                Screenshoter.getScreenElement("Перед-el", el, method.getName(), "args:  ",
                         Arrays.toString(args));
             }
         }
@@ -187,16 +187,16 @@ public class Listeners implements WebDriverListener {
      * @param result возврат метода назначения (null для void)
      */
     private static void actionAfterWebElement(WebDriver lastListenedDriver, WebElement el, Method method, Object[] args, Object result) {
-        if (getListenerAround()>=2 && checkMethod(method.getName())) {
+        if (getListenerAround() >= 2 && checkMethod(method.getName())) {
             // если страница быстро среагирует на действие над элементом (напр заменится по клику),
             // то на момент попытки afterМетода el уже не существует, afterМетод проигнорится !
             if (lastListenedDriver != null && getListenerModeElements() != 2) {
                 new Actions(lastListenedDriver).moveToElement(el).perform();
-                Screenshoter.getScreenDriver("После", lastListenedDriver, method.getName(), "return:",
+                Screenshoter.getScreenDriver("После-win", lastListenedDriver, method.getName(), "return:",
                         (result == null) ? "void" : result.toString());
             }
             if (lastListenedDriver == null || getListenerModeElements() != 1) {
-                Screenshoter.getScreenElement("После", el, method.getName(), "return:",
+                Screenshoter.getScreenElement("После-el", el, method.getName(), "return:",
                         (result == null) ? "void" : result.toString());
             }
         }
@@ -211,6 +211,7 @@ public class Listeners implements WebDriverListener {
         public void beforeAnyCall(Object target, Method method, Object[] args) {
             actionBeforeAll(target, method, args);
         }
+
         @Override
         public void afterAnyCall(Object target, Method method, Object[] args, Object result) {
             actionAfterAll(target, method, args, result);
@@ -226,6 +227,7 @@ public class Listeners implements WebDriverListener {
         public void beforeAnyWebDriverCall(WebDriver driver, Method method, Object[] args) {
             actionBeforeWebDriver(driver, method, args);
         }
+
         @Override
         public void afterAnyWebDriverCall(WebDriver driver, Method method, Object[] args, Object result) {
             actionAfterWebDriver(driver, method, args, result);
@@ -241,6 +243,7 @@ public class Listeners implements WebDriverListener {
         public void beforeAnyWebElementCall(WebElement element, Method method, Object[] args) {
             actionBeforeWebElement(lastListenedDriver, element, method, args);
         }
+
         @Override
         public void afterAnyWebElementCall(WebElement element, Method method, Object[] args, Object result) {
             // если страница быстро среагирует на действие над элементом (напр заменится по клику),
