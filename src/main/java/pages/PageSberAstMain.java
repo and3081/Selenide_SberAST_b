@@ -207,7 +207,8 @@ public class PageSberAstMain extends BasePage {
     public boolean clickNextPage(int nextNumber) {
         String attr = $x(XPATH_NEXT_PAGE_BUTTON).shouldBe(exist).getAttribute("content");
         if (attr!=null && nextNumber == Integer.parseInt(attr)) {
-            $x(XPATH_NEXT_PAGE_BUTTON).shouldBe(visible, enabled).click();
+            waitRealClick($x(XPATH_NEXT_PAGE_BUTTON).shouldBe(visible, enabled),
+                    XPATH_NEXT_PAGE_BUTTON);
             return true;
         }
         return false;
