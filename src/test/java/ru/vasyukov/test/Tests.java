@@ -1,6 +1,7 @@
 package ru.vasyukov.test;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import ru.vasyukov.hooks.WebHooks;
@@ -45,6 +46,7 @@ public class Tests extends WebHooks {
      * @param countChoice     количество для выборки (10)
      */
     @DisplayName("Тестирование выборки в Сбер-АСТ")
+    @Tag("1")
     @ParameterizedTest(name = "{arguments}")
     @MethodSource("ru.vasyukov.test.DataProvider#providerSberAst")
     public void testSberAstChoice(String search, double price, String currency, String law,

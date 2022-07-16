@@ -7,6 +7,9 @@
 ## запуск всех тестов
 mvn clean test
 
+## запуск тестов выборочно по названиям тегов
+mvn clean test -Dgroups="перечень через запятую"
+
 ## построение отчета Allure
 mvn allure:serve
 
